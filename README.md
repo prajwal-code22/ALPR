@@ -1,2 +1,8 @@
-# ALPR
-Automatic License plate detection system
+# ALPR (Automatic License plate detection system)
+
+### This is final year college project by:
+Anuj Poudel  
+Prajwal Siwakoti   
+Sabin Siwakoti 
+
+### Data set for license plate detection using CAA can be found [here](https://drive.google.com/file/d/1pOpP4q_U6ypYNQ3pUaO_QIZH_SuFy1uf/view?usp=sharing)
