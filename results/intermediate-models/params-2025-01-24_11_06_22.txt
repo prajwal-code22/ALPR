@@ -1,0 +1,17 @@
+# Hyperparameters 
+epoch=10
+batch_size=80
+lr=0.01
+momentum=0.9
+data_to_train_on=174483.0 datas
+
+auto_contrast_probability=0.5
+
+# Metrics 
+average_loss=1.5094147968128375
+total_loss=2196.1985293626785
+recall=tensor(0.5498, device='cuda:0')
+precision=tensor(0.5498, device='cuda:0')
+accuracy=tensor(0.5498, device='cuda:0')
+# Epoch and loss
+2.49237280772652352.18383994865155232.06788365017045632.01568618113572831.99331186382624131.96077301079368071.93948558980887591.90908916552715851.86837999646976161.858085641174771

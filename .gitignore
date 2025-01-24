@@ -1,3 +1,7 @@
 datasets
 data
 .ipynb*
+__pycache__
+*.zip
+*.pt
+*.pth
