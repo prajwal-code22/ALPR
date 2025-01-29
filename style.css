@@ -3,25 +3,26 @@ body {
     background-color: #f0f0f0;
     padding: 20px;
 }
+
 .navbar {
-display: flex;
-justify-content: center;
-background-color: #fe6d6a;
-padding: 10px 0;
-margin-bottom: 20px;
-border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    background-color: #fe6d6a;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-radius: 5px;
 }
 
 .navbar a {
-color: white;
-text-decoration: none;
-padding: 10px 20px;
-font-weight: bold;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-weight: bold;
 }
 
 .navbar a:hover {
-background-color: #e65b57;
-border-radius: 5px;
+    background-color: #e65b57;
+    border-radius: 5px;
 }
 
 .container {
@@ -45,9 +46,10 @@ h1 {
 
 /* Settings Panel Styles */
 .settings-panel {
-    background-color: #e0e0e0;
-    padding: 15px;
+    background-color: #e6dcdc;
+    padding: 0 .2rem;
     border: 1px solid #999;
+    overflow-y: scroll;
 }
 
 .content-area {
@@ -107,17 +109,18 @@ video {
 .hidden {
     display: none;
 }
+
 .button-group button {
-padding: 5px 15px;
-margin-right: 10px;
-background-color: #fe6d6a; 
-color: white; 
-border: none;
-cursor: pointer;
-border-radius: 5px;
-font-weight: bold;
+    padding: 5px 15px;
+    margin-right: 10px;
+    background-color: #fe6d6a;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
 .button-group button:hover {
-background-color: #e65b57; 
+    background-color: #e65b57;
 }

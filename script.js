@@ -8,7 +8,7 @@ function loadFile(event, type) {
     const fileInfo = document.getElementById("fileInfo");
 
     const fileURL = URL.createObjectURL(file);
-    
+
     if (type === "image") {
         previewImage.src = fileURL;
         previewImage.classList.remove("hidden");
@@ -25,3 +25,16 @@ function loadFile(event, type) {
 function executeRecognition() {
     alert("Executing Number Plate Recognition...");
 }
+
+// Setting location
+
+const locationSpan = document.querySelector(".location");
+let lag, long;
+
+navigator.geolocation.getCurrentPosition((position) => {
+    lat = position.coords.latitude;
+    long = position.coords.longitude;
+
+    locationSpan.innerText = lat + ", " + long;
+
+});
