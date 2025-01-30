@@ -29,7 +29,7 @@ def home(request: HttpRequest):
         with open(file_path, 'wb+') as destination:
             for chunk in uploaded_file.chunks():
                 destination.write(chunk)
-
+        print(file_path)
         detect_plate(file_path, scanned_plate.pk, file_type)
 
         return render(request, "index.html", {"id": scanned_plate.pk})
