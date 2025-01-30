@@ -24,7 +24,7 @@ def home(request: HttpRequest):
         file_extension = uploaded_file.name.split('.')[-1].lower()
         file_name = f"{file_type}-{scanned_plate.pk}-{request.user.pk}.{file_extension}"
 
-        file_path = os.path.join(settings.TO_READ_FILE_PATH, file_name)
+        file_path = os.path.join(settings.LICENSE_PLATES, file_name)
 
         with open(file_path, 'wb+') as destination:
             for chunk in uploaded_file.chunks():

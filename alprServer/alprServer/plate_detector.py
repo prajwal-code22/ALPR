@@ -6,7 +6,6 @@ import cv2
 from inference_sdk import InferenceHTTPClient
 
 
-
 r=redis.Redis(host="localhost", port="6379")
 p = r.pubsub()
 p.subscribe("path")
@@ -24,10 +23,6 @@ def detect_plate(file_path, id_, file_type):
     )
     image_url = file_path
     result = CLIENT.infer(image_url, model_id="license-plate-recognition-rxg4e/6")
-    print(result)
-    # read file from file_path 
-    # crop license plate
-    # Store only the image of license plate with the same file name.
     image = cv2.imread(file_path)
 
 # Ensure predictions exist
@@ -43,18 +38,8 @@ def detect_plate(file_path, id_, file_type):
         cropped_plate = image[y - h//2 : y + h//2, x - w//2 : x + w//2]
     
         # Save the cropped plate
-        output_path = "cropped_plate.jpg"
-        cv2.imwrite(output_path, cropped_plate)
+        cv2.imwrite(file_path, cropped_plate)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
+        publish_to_queue(file_path, id_, file_type)
     
-        print(f"Cropped license plate saved at {output_path}")
-    else:
-        print("No license plate detected in the response.")
-
-    publish_to_queue(file_path, id_, file_type)
-    
-    
-
-
- 

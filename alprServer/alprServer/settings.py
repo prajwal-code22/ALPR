@@ -124,15 +124,13 @@ STATICFILES_DIRS  = [
 MEDIA_ROOT = BASE_DIR/"media"
 MEDIA_URL = "media/"
 
-TO_READ_FILE_PATH = MEDIA_ROOT/"to-read"
-READ_DONE_FILE_PATH = MEDIA_ROOT/"done"
+LICENSE_PLATES = MEDIA_ROOT/"lp"
 
 import os
 
 try:
+    os.mkdir(LICENSE_PLATES)
     os.mkdir(MEDIA_ROOT)
-    os.mkdir(TO_READ_FILE_PATH)
-    os.mkdir(READ_DONE_FILE_PATH)
 except:
     ...
 
