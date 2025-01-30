@@ -103,7 +103,7 @@ model = OCRModel(num_classes).to(device)
 
 # Loss and optimizers
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=lr)
+optimizer = optim.SGD(model.parameters(), lr=lr, momentum=momentum)
 
 # Saving model
 def save_model(model, epoch: int, final_model: bool=False):
@@ -137,39 +137,39 @@ try:
 except Exception as e:
     print(e)
 
-# Training loop
-print(f"Training data from {data_to_train_on*(this_training_session_rank-1)}:{data_to_train_on*this_training_session_rank}")
 epoch_loss_store = []
-for i in range(epoch):
-    running_loss = .0
-    for ind, (features, labels) in enumerate(train_dataloader):
+# # Training loop
+# print(f"Training data from {data_to_train_on*(this_training_session_rank-1)}:{data_to_train_on*this_training_session_rank}")
+# for i in range(epoch):
+#     running_loss = .0
+#     for ind, (features, labels) in enumerate(train_dataloader):
 
-        features = features.to(device)
-        labels = labels.to(device)
+#         features = features.to(device)
+#         labels = labels.to(device)
 
-        # Forward pass and loss calcuation
-        outputs = model(features)
-        loss = criterion(outputs, labels)
+#         # Forward pass and loss calcuation
+#         outputs = model(features)
+#         loss = criterion(outputs, labels)
 
-        # Backward pass ans optimizing
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+#         # Backward pass ans optimizing
+#         optimizer.zero_grad()
+#         loss.backward()
+#         optimizer.step()
 
-        running_loss += loss.item()
+#         running_loss += loss.item()
 
-        if ind % 100 == 0 and ind > 0:
-          print("Saving model...")
-          save_model(model, epoch=i+ind)
+#         if ind % 100 == 0 and ind > 0:
+#           print("Saving model...")
+#           save_model(model, epoch=i+ind)
 
-    running_loss /= len(train_dataloader)
-    print(f"Epoch: {i+1}, Loss: {running_loss} ")
-    epoch_loss_store.append(running_loss)
+#     running_loss /= len(train_dataloader)
+#     print(f"Epoch: {i+1}, Loss: {running_loss} ")
+#     epoch_loss_store.append(running_loss)
 
-    # Saving model in every 1 epoch
+#     # Saving model in every 1 epoch
 
 # Testing loop
-
+print("Testing started...")
 all_accuracy = Accuracy(task="multiclass", num_classes=num_classes, average="micro").to(device)
 all_precision = Precision(task="multiclass", num_classes=num_classes, average="micro").to(device)
 all_recall = Recall(task="multiclass", num_classes=num_classes, average="micro").to(device)
