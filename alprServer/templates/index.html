@@ -20,12 +20,19 @@
         <div class="main-content">
             <!-- Settings Panel -->
             <div class="settings-panel">
+                {% if id %}
+                <a href="{% url 'check' id %}"> Check </a>
+                {% endif %}
                 <h3>Recognized plates</h3>
-                <p> </p>
+                {% if numbers %}
+                {% for value in numbers %}
+                <p>{{value}} </p>
+                {% endfor %}
+                {% endif %}
             </div>
 
             <!-- Main Content Area -->
-            <form action="" method="POST" enctype="multipart/form-data" class="content-area">
+            <form action="{% url 'home' %}" method="POST" enctype="multipart/form-data" class="content-area">
                 {% csrf_token %}
                 <input type="hidden" name="long" id="long">
                 <input type="hidden" name="lat" id="lat">

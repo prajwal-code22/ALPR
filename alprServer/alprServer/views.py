@@ -2,8 +2,9 @@ from django.conf import settings
 from django.http import HttpRequest
 from django.shortcuts import render
 from app import models
-from .plate_detector import detect_plate
+from .plate_detector import detect_plate, r
 import os
+import json
 
 def home(request: HttpRequest):
 
@@ -23,18 +24,24 @@ def home(request: HttpRequest):
         file_extension = uploaded_file.name.split('.')[-1].lower()
         file_name = f"{file_type}-{scanned_plate.pk}-{request.user.pk}.{file_extension}"
 
-
         file_path = os.path.join(settings.TO_READ_FILE_PATH, file_name)
 
         with open(file_path, 'wb+') as destination:
             for chunk in uploaded_file.chunks():
                 destination.write(chunk)
 
-        detect_plate(file_path, scanned_plate.pk)
+        detect_plate(file_path, scanned_plate.pk, file_type)
+
+        return render(request, "index.html", {"id": scanned_plate.pk})
 
     return render(request, 'index.html')
 
 
-# def check_results(request: HttpRequest):
+def check_results(request: HttpRequest, id_):
 
-#     id_ = 
+    numbers = r.get(id_)
+
+    if numbers is None:
+        return render(request, "index.html", {"id": id_})
+    return render(request, "index.html", {"id": id, "numbers": json.loads(numbers)})
+    
