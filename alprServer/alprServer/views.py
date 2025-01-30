@@ -32,7 +32,7 @@ def home(request: HttpRequest):
         print(file_path)
         detect_plate(file_path, scanned_plate.pk, file_type)
 
-        return render(request, "index.html", {"id": scanned_plate.pk})
+        return render(request, "index.html", {"id": scanned_plate.pk, "file_path":  f"/media/lp/{file_name}" })
 
     return render(request, 'index.html')
 
