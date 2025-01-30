@@ -32,4 +32,7 @@ navigator.geolocation.getCurrentPosition((position) => {
 
     locationSpan.innerText = lat + ", " + long;
 
+    document.querySelector("#long").value = long;
+    document.querySelector("#lat").value = lat;
+
 });

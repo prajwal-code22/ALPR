@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -121,6 +123,19 @@ STATICFILES_DIRS  = [
 ]
 MEDIA_ROOT = BASE_DIR/"media"
 MEDIA_URL = "media/"
+
+TO_READ_FILE_PATH = MEDIA_ROOT/"to-read"
+READ_DONE_FILE_PATH = MEDIA_ROOT/"done"
+
+import os
+
+try:
+    os.mkdir(MEDIA_ROOT)
+    os.mkdir(TO_READ_FILE_PATH)
+    os.mkdir(READ_DONE_FILE_PATH)
+except:
+    ...
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
