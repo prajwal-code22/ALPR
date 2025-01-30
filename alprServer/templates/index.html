@@ -29,19 +29,31 @@
                 {% csrf_token %}
                 <div class="button-group">
                     <label>Load Image</label>
-                    <button onclick="document.getElementById('imageInput').click()">Load File</button>
+                    <button type="button" onclick="document.getElementById('imageInput').click()">Load File</button>
                     <button>Execute</button>
                 </div>
 
                 <div class="button-group">
                     <label>Videos</label>
-                    <button onclick="document.getElementById('videoInput').click()">Load Video</button>
+                    <button type="button" onclick="document.getElementById('videoInput').click()">Load Video</button>
                     <button onclick="executeRecognition()">Execute</button>
                 </div>
 
                 <!-- Hidden file inputs -->
-                <input type="file" id="imageInput" class="hidden" accept="image/*" onchange="loadFile(event, 'image')">
-                <input type="file" id="videoInput" class="hidden" accept="video/*" onchange="loadFile(event, 'video')">
+                <input type="file" id="imageInput" name="image" class="hidden" accept="image/*"
+                    onchange="loadFile(event, 'image')">
+                <input type="file" id="videoInput" class="hidden" name="video" accept="video/*"
+                    onchange="loadFile(event, 'video')">
+
+
+                <div class="image-container" id="mediaContainer">
+                    <img src="" alt="Number Plate Preview" class="preview-media" id="previewImage">
+                    <video controls class="preview-media hidden" id="previewVideo"></video>
+                    <div class="image-info" id="fileInfo">
+                        <p>Name: kitsnap-2012-08</p>
+                        <p>Path: E:\New folder\Desktop\number plates\numberframes\pictures\</p>
+                    </div>
+                </div>
 
 
                 <div class="copyright">

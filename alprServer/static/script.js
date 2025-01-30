@@ -1,8 +1,8 @@
 function loadFile(event, type) {
     const file = event.target.files[0];
+    console.log(file, type);
     if (!file) return;
 
-    const mediaContainer = document.getElementById("mediaContainer");
     const previewImage = document.getElementById("previewImage");
     const previewVideo = document.getElementById("previewVideo");
     const fileInfo = document.getElementById("fileInfo");
