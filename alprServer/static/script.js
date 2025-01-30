@@ -21,11 +21,6 @@ function loadFile(event, type) {
 
     fileInfo.innerHTML = `<p>Name: ${file.name}</p><p>Path: ${file.name}</p>`;
 }
-
-function executeRecognition() {
-    alert("Executing Number Plate Recognition...");
-}
-
 // Setting location
 
 const locationSpan = document.querySelector(".location");
