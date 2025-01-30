@@ -39,9 +39,20 @@ def home(request: HttpRequest):
 
 def check_results(request: HttpRequest, id_):
 
-    numbers = r.get(id_)
+    numbers = r.lrange(id_, 0, -1)
 
     if numbers is None:
         return render(request, "index.html", {"id": id_})
-    return render(request, "index.html", {"id": id, "numbers": json.loads(numbers)})
     
+    sp = models.ScannedPlate.objects.get(pk=id_)
+
+    ns = []
+    for n in numbers:
+        ns.extend(json.loads(n))
+
+    sp.plate =  ",".join(ns)
+    sp.save()
+
+
+    return render(request, "index.html", {"id": id_, "numbers": ns})
+
