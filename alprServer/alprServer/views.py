@@ -1,11 +1,14 @@
 from django.conf import settings
 from django.http import HttpRequest
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
 from app import models
 from .plate_detector import detect_plate, r
 import os
 import json
 
+@login_required
 def home(request: HttpRequest):
 
     if request.method == "POST":
@@ -37,6 +40,7 @@ def home(request: HttpRequest):
     return render(request, 'index.html')
 
 
+@login_required
 def check_results(request: HttpRequest, id_):
 
     numbers = r.lrange(id_, 0, -1)
