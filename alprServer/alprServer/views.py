@@ -4,9 +4,10 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from app import models
-from .plate_detector import detect_plate, r
+from .tasks import r, read_lp_from_image
 import os
 import json
+import cv2
 
 @login_required
 def home(request: HttpRequest):
@@ -15,27 +16,37 @@ def home(request: HttpRequest):
         long = request.POST.get("long")
         lat = request.POST.get("lat")
         uploaded_file = request.FILES.get("image") or request.FILES.get("video")
-        file_type = uploaded_file.content_type.split("/")[0]
+
+        file_type = uploaded_file.content_type.split("/")[0].lower()
+
+        if file_type == "image":
+            ...
+        elif file_type == "video":
+            ...
+        else: # Live stream?
+            ...
 
         location, _ = models.Location.objects.get_or_create(long=long, lat=lat)
         scanned_plate = models.ScannedPlate(
             locaiont_id=location,
         )
         scanned_plate.save()
+        scanned_plate_id = scanned_plate.pk
 
         # Handle image here
         file_extension = uploaded_file.name.split('.')[-1].lower()
-        file_name = f"{file_type}-{scanned_plate.pk}-{request.user.pk}.{file_extension}"
+        file_name = f"{file_type}-{scanned_plate_id}-{request.user.pk}.{file_extension}"
 
         file_path = os.path.join(settings.LICENSE_PLATES, file_name)
 
         with open(file_path, 'wb+') as destination:
             for chunk in uploaded_file.chunks():
                 destination.write(chunk)
-        print(file_path)
-        detect_plate(file_path, scanned_plate.pk, file_type)
 
-        return render(request, "index.html", {"id": scanned_plate.pk, "file_path":  f"/media/lp/{file_name}" })
+        mat_img = cv2.imread(file_path)
+        read_lp_from_image(scanned_plate_id ,mat_img)
+
+        return render(request, "index.html", { "file_path":  file_path, "id": scanned_plate_id})
 
     return render(request, 'index.html')
 
@@ -43,20 +54,21 @@ def home(request: HttpRequest):
 @login_required
 def check_results(request: HttpRequest, id_):
 
-    numbers = r.lrange(id_, 0, -1)
+    numbers = r.get(f"{id_}")
 
     if numbers is None:
         return render(request, "index.html", {"id": id_})
     
     sp = models.ScannedPlate.objects.get(pk=id_)
 
-    ns = []
-    for n in numbers:
-        ns.extend(json.loads(n))
+    if isinstance(numbers[0], list):
+        ns = []
+        for n in numbers:
+            ns.extend(json.loads(n))
+    else:
+        ns = json.loads(numbers)
 
     sp.plate =  ",".join(ns)
     sp.save()
 
-
     return render(request, "index.html", {"id": id_, "numbers": ns})
-
