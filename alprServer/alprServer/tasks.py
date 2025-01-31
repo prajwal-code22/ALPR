@@ -1,29 +1,20 @@
-# import after_response
-import asyncio
 import redis
-import json
 import cv2
 from inference_sdk import InferenceHTTPClient
+import pickle
 
-
-r=redis.Redis(host="localhost", port="6379")
+r = redis.Redis(host="localhost", port="6379")
 p = r.pubsub()
-p.subscribe("path")
-
-def publish_to_queue(file_path: str, id_, file_type):
-
-    r.publish("path", json.dumps({'path': file_path, 'id': id_, 'type': file_type}))
 
 
-# @after_response.enable
-def detect_plate(file_path, id_, file_type):
+def read_lp_from_image( scanned_plate_id, image: cv2.typing.MatLike):
+
     CLIENT = InferenceHTTPClient(
     api_url="https://detect.roboflow.com",
     api_key="8mgpiuosrxccI2KvBjjS"
     )
-    image_url = file_path
-    result = CLIENT.infer(image_url, model_id="license-plate-recognition-rxg4e/6")
-    image = cv2.imread(file_path)
+
+    result = CLIENT.infer(image, model_id="license-plate-recognition-rxg4e/6")
 
 # Ensure predictions exist
     if result["predictions"]:
@@ -36,10 +27,7 @@ def detect_plate(file_path, id_, file_type):
     
         # Crop the license plate
         cropped_plate = image[y - h//2 : y + h//2, x - w//2 : x + w//2]
-    
-        # Save the cropped plate
-        cv2.imwrite(file_path, cropped_plate)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-        publish_to_queue(file_path, id_, file_type)
-    
+
+        img_detail = (scanned_plate_id, cropped_plate)
+
+        r.publish("image", pickle.dumps(img_detail))
