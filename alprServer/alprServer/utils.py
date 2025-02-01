@@ -1,5 +1,4 @@
 import cv2
-from inference_sdk import InferenceHTTPClient
 import pickle
 from .redis import r
 from app.license_plate_detector import LicensePlateDetector
