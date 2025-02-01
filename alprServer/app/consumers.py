@@ -5,7 +5,8 @@ from asgiref.sync import async_to_sync
 
 class WsConsumer(WebsocketConsumer):
     def connect(self):
-        self.room_name = self.scope["user"].username
+        self.room_name = "room"
+
         self.room_group_name = f"{self.room_name}"
 
         # Join room group
@@ -20,7 +21,7 @@ class WsConsumer(WebsocketConsumer):
             self.room_group_name, self.channel_name
         )
 
-    def receive(self, text_data=None, bytes_data=None):
+    def receive(self, text_data=None):
         try:
             text_data_json = json.loads(text_data)
         except: 

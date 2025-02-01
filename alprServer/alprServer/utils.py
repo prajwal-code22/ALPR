@@ -4,7 +4,6 @@ import pickle
 from .redis import r
 
 p = r.pubsub()
-p.subscribe('result')
 
 def read_lp_from_image( scanned_plate_id, image: cv2.typing.MatLike):
 
