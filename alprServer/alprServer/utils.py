@@ -1,12 +1,10 @@
-import redis
 import cv2
 from inference_sdk import InferenceHTTPClient
 import pickle
+from .redis import r
 from app.license_plate_detector import LicensePlateDetector
-
-r = redis.Redis(host="localhost", port="6379")
 p = r.pubsub()
-
+p.subscribe('result')
 
 
 def read_lp_from_image(scanned_plate_id, image: cv2.typing.MatLike):
@@ -36,3 +34,4 @@ def read_lp_from_image(scanned_plate_id, image: cv2.typing.MatLike):
     print("Cropped plate pushed to Redis.")
     return
 
+    r.publish("image", pickle.dumps(img_detail))
