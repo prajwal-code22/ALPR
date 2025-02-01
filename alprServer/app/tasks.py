@@ -30,11 +30,10 @@ def listen_result():
             numbers = json_data[1]
 
             sp = ScannedPlate.objects.get(pk=id_)
-            room_name = sp.user.username
 
             channel_layer = get_channel_layer()
             async_to_sync(channel_layer.group_send)(
-                room_name,
+                "room",
                 {
                     'type': 'send_result',
                     'message': numbers

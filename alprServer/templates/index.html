@@ -20,15 +20,6 @@
         <div class="main-content">
             <!-- Settings Panel -->
             <div class="settings-panel">
-                {% if id %}
-                <a href="{% url 'check' id %}"> Check </a>
-                {% endif %}
-                <h3>Recognized plates</h3>
-                {% if numbers %}
-                {% for value in numbers %}
-                <p>{{value}} </p>
-                {% endfor %}
-                {% endif %}
             </div>
 
             <!-- Main Content Area -->

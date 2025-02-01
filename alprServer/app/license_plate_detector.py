@@ -1,10 +1,10 @@
-import cv2
-import numpy as np
 from ultralytics import YOLO
+from django.conf import settings
 
 class LicensePlateDetector:
     def __init__(self):
-        self.model_path = "/home/prajwal/Desktop/ALPR/ALPR/results/License-plate-detector-model/license_plate_detector.pt"
+        self.model_path = settings.MODEL_DIR
+        
         """Initialize the YOLO model only once"""
         self.model = YOLO(self.model_path)
 
