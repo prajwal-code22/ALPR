@@ -5,7 +5,8 @@ from asgiref.sync import async_to_sync
 
 class WsConsumer(WebsocketConsumer):
     def connect(self):
-        self.room_name = self.scope["user"].username
+        self.room_name = self.scope["user"].pk
+        print(self.room_name)
         self.room_group_name = f"{self.room_name}"
 
         # Join room group
