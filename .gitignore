@@ -3,7 +3,6 @@ data
 .ipynb*
 __pycache__
 *.zip
-*.pt
 *.pth
 .venv
 media
