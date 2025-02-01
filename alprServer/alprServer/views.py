@@ -4,10 +4,11 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from app import models
-from .tasks import r, read_lp_from_image
+from .utils import r, read_lp_from_image
 import os
 import json
 import cv2
+
 
 @login_required
 def home(request: HttpRequest):
@@ -29,6 +30,7 @@ def home(request: HttpRequest):
         location, _ = models.Location.objects.get_or_create(long=long, lat=lat)
         scanned_plate = models.ScannedPlate(
             locaiont_id=location,
+            user=request.user
         )
         scanned_plate.save()
         scanned_plate_id = scanned_plate.pk

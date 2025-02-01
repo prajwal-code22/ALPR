@@ -32,7 +32,8 @@
             </div>
 
             <!-- Main Content Area -->
-            <form action="{% url 'home' %}" method="POST" enctype="multipart/form-data" class="content-area">
+            <form id="loaderform" action="{% url 'home' %}" method="POST" enctype="multipart/form-data"
+                class="content-area">
                 {% csrf_token %}
                 <input type="hidden" name="long" id="long">
                 <input type="hidden" name="lat" id="lat">

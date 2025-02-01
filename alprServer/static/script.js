@@ -1,6 +1,5 @@
 function loadFile(event, type) {
     const file = event.target.files[0];
-    console.log(file, type);
     if (!file) return;
 
     const previewImage = document.getElementById("previewImage");
@@ -36,3 +35,40 @@ navigator.geolocation.getCurrentPosition((position) => {
     document.querySelector("#lat").value = lat;
 
 });
+
+
+// Websocket
+
+const socket = new WebSocket("ws://localhost:8000");
+
+socket.onopen = e => console.log("Connected")
+socket.onerror = e => console.log("Error", e)
+
+socket.onmessage = (e) => {
+    const jsonData = JSON.parse(e.data);
+    const nums = jsonData.numbers;
+    for (const num of nums) {
+        addNumber(num)
+    }
+
+}
+
+const recognizedNumDiv = document.querySelector(".settings-panel");
+function addNumber(num) {
+    recognizedNumDiv.innerHTML += `<p> ${num} </p>`
+}
+
+// Handling form
+const form = document.forms["loaderform"];
+
+form.onsubmit = (e) => {
+    e.preventDefault();
+
+    const fd = new FormData(form);
+
+    fetch(form.action, {
+        method: form.method,
+        body: fd
+    })
+
+}
