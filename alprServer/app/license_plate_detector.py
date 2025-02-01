@@ -3,7 +3,7 @@ from django.conf import settings
 
 class LicensePlateDetector:
     def __init__(self):
-        self.model_path = settings.MODEL_DIR
+        self.model_path = f"{settings.MODEL_DIR}/license_plate_detector.pt"
         
         """Initialize the YOLO model only once"""
         self.model = YOLO(self.model_path)
