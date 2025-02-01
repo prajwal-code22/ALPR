@@ -46,7 +46,10 @@
                 <div class="button-group">
                     <label>Videos</label>
                     <button type="button" onclick="document.getElementById('videoInput').click()">Load Video</button>
-                    <button onclick="executeRecognition()">Execute</button>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" onclick="liveCapture()">Capture Live</button>
                 </div>
 
                 <!-- Hidden file inputs -->
@@ -72,6 +75,8 @@
             </form>
         </div>
     </div>
+
+    <canvas id="canvas"></canvas>
 
     <script src="{% static 'script.js' %} "></script>
 </body>
