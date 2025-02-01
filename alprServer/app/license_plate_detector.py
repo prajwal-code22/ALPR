@@ -14,7 +14,6 @@ class LicensePlateDetector:
         
         # Perform inference
         results = self.model(image)
-        print(results)
         result = results[0]
 
         # Extract bounding boxes
@@ -25,7 +24,6 @@ class LicensePlateDetector:
 
                 # Crop the license plate from the image
                 license_plate = image[y1:y2, x1:x2]
-                print(license_plate)
                 return license_plate
 
         print("No license plate detected.")
