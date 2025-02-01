@@ -2,32 +2,37 @@ import redis
 import cv2
 from inference_sdk import InferenceHTTPClient
 import pickle
+from app.license_plate_detector import LicensePlateDetector
 
 r = redis.Redis(host="localhost", port="6379")
 p = r.pubsub()
 
 
-def read_lp_from_image( scanned_plate_id, image: cv2.typing.MatLike):
 
-    CLIENT = InferenceHTTPClient(
-    api_url="https://detect.roboflow.com",
-    api_key="8mgpiuosrxccI2KvBjjS"
-    )
+def read_lp_from_image(scanned_plate_id, image: cv2.typing.MatLike):
+    # Initialize the license plate detector
+    detector = LicensePlateDetector()
 
-    result = CLIENT.infer(image, model_id="license-plate-recognition-rxg4e/6")
+    # Get the cropped license plate as a NumPy array
+    cropped_plate_array = detector.detect_license_plate(image)
+    cv2.imshow('Cropped License Plate', cropped_plate_array)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
-# Ensure predictions exist
-    if result["predictions"]:
-        # Extract bounding box from response
-        plate_data = result["predictions"][0]  # Taking the first detected plate
-        x, y, w, h = plate_data["x"], plate_data["y"], plate_data["width"], plate_data["height"]
+    # Encode the cropped plate image to JPEG format
+    success, img_encoded = cv2.imencode('.jpg', cropped_plate_array)
     
-        # Convert to integer
-        x, y, w, h = int(x), int(y), int(w), int(h)
-    
-        # Crop the license plate
-        cropped_plate = image[y - h//2 : y + h//2, x - w//2 : x + w//2]
+    if not success:
+        print("Failed to encode image")
+        return
 
-        img_detail = (scanned_plate_id, cropped_plate)
+    # Convert the encoded image to a byte stream
+    cropped_plate_bytes = img_encoded.tobytes()
 
-        r.publish("image", pickle.dumps(img_detail))
+    # Push the image byte stream to Redis along with the scanned plate ID
+    img_detail = (scanned_plate_id, cropped_plate_bytes)
+    r.publish("image", pickle.dumps(img_detail))
+
+    print("Cropped plate pushed to Redis.")
+    return
+
