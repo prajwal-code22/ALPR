@@ -19,7 +19,7 @@ def home(request: HttpRequest):
 
         scanned_plate = models.ScannedPlate(
             locaiont_id=location,
-            user=request.user,
+            auth_user=request.user,
             image = uploaded_file
         )
 
